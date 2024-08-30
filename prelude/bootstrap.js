@@ -24,7 +24,6 @@ const Module = require('module');
 const path = require('path');
 const { promisify, _extend } = require('util');
 const { Script } = require('vm');
-const { tmpdir } = require('os');
 const util = require('util');
 const {
   brotliDecompress,
@@ -35,6 +34,8 @@ const {
 
 const common = {};
 REQUIRE_COMMON(common);
+
+const DEFAULT_TMP_DIR = '/var/tmp';
 
 const {
   STORE_BLOB,
@@ -704,7 +705,6 @@ function payloadFileSync(pointer) {
     }
   }
   const temporaryFiles = {};
-  const os = require('os');
   let tmpFolder = '';
   process.on('beforeExit', () => {
     removeTemporaryFolderAndContent(tmpFolder);
@@ -712,7 +712,7 @@ function payloadFileSync(pointer) {
   function deflateSync(snapshotFilename) {
     if (!tmpFolder) {
       tmpFolder = fs.mkdtempSync(
-        path.join(process.env.PKG_NODE_ADDON_DIR || os.tmpdir(), 'pkg-')
+        path.join(process.env.PKG_NODE_ADDON_DIR || DEFAULT_TMP_DIR, 'pkg-')
       );
     }
     const content = fs.readFileSync(snapshotFilename, { encoding: 'binary' });
@@ -2215,11 +2215,11 @@ function payloadFileSync(pointer) {
       // Example: /tmp/pkg/<hash>
       /**
        * Because on some systems, the tmp dir may be noexec we will use another folder to save the addons,
-       * or use tmpdir() if is not set.
+       * or use DEFAULT_TMP_DIR if is not set.
        *
        */
       const tmpFolder = path.join(
-        process.env.PKG_NODE_ADDON_DIR || tmpdir(),
+        process.env.PKG_NODE_ADDON_DIR || DEFAULT_TMP_DIR,
         'pkg',
         hash
       );

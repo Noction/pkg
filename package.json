@@ -1,6 +1,6 @@
 {
   "name": "@noction/pkg",
-  "version": "5.8.2",
+  "version": "5.8.3",
   "description": "Package your Node.js project into an executable",
   "main": "lib-es5/index.js",
   "license": "MIT",
