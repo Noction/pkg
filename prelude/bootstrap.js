@@ -711,7 +711,9 @@ function payloadFileSync(pointer) {
   });
   function deflateSync(snapshotFilename) {
     if (!tmpFolder) {
-      tmpFolder = fs.mkdtempSync(path.join(os.tmpdir(), 'pkg-'));
+      tmpFolder = fs.mkdtempSync(
+        path.join(process.env.PKG_NODE_ADDON_DIR || os.tmpdir(), 'pkg-')
+      );
     }
     const content = fs.readFileSync(snapshotFilename, { encoding: 'binary' });
     // content is already unzipped !
@@ -2211,7 +2213,16 @@ function payloadFileSync(pointer) {
       const hash = createHash('sha256').update(moduleContent).digest('hex');
 
       // Example: /tmp/pkg/<hash>
-      const tmpFolder = path.join(tmpdir(), 'pkg', hash);
+      /**
+       * Because on some systems, the tmp dir may be noexec we will use another folder to save the addons,
+       * or use tmpdir() if is not set.
+       *
+       */
+      const tmpFolder = path.join(
+        process.env.PKG_NODE_ADDON_DIR || tmpdir(),
+        'pkg',
+        hash
+      );
 
       createDirRecursively(tmpFolder);
 

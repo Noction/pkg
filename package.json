@@ -1,10 +1,13 @@
 {
-  "name": "pkg",
-  "version": "5.8.1",
+  "name": "@noction/pkg",
+  "version": "5.8.2",
   "description": "Package your Node.js project into an executable",
   "main": "lib-es5/index.js",
   "license": "MIT",
-  "repository": "vercel/pkg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vercel/pkg.git"
+  },
   "types": "lib-es5/index.d.ts",
   "bin": {
     "pkg": "lib-es5/bin.js"
@@ -80,5 +83,19 @@
   },
   "lint-staged": {
     "*.{js,css,md,json}": "prettier --write"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/vercel/pkg/issues"
+  },
+  "homepage": "https://github.com/vercel/pkg#readme",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
+  },
+  "keywords": [
+    "pkg",
+    "@noction/pkg"
+  ],
+  "author": "Noction"
 }
