@@ -3,14 +3,23 @@
   "license": "ISC",
   "bin": "index.js",
   "dependencies": {
+    "@prisma/client": "^5.19.1",
     "express": "4.15.2"
+  },
+  "scripts": {
+    "build": "rm -rf dist && npx prisma generate && pkg ."
   },
   "pkg": {
     "assets": [
-      "views/**/*"
+      "views/**/*",
+      "node_modules/.prisma/**/*"
     ],
     "targets": [
-      "node8"
-    ]
+      "node18-macos-x64"
+    ],
+    "outputPath": "dist"
+  },
+  "devDependencies": {
+    "@noction/pkg": "file:../../lib-es5"
   }
 }
